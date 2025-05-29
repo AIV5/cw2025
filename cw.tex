@@ -28,7 +28,7 @@
 
 % = (!!!) Здесь впишите свои данные =
 %  - Название работы -
-\cwTitle{Тема работы}
+\cwTitle{Поиск алгоритма сложности 19 для умножения матриц порядка 3 над полем из 2 элементов}
 %  - Как вас зовут, В РОДИТЕЛЬНОМ ПАДЕЖЕ -
 \cwAuthor{Иванова Андрея Александровича}
 %  - Номер группы -
@@ -76,11 +76,12 @@ $\sum u^{(k)}_{i_1j_1} v^{(k)}_{i_2j_2} w^{(k)}_{i_3j_3} = \delta_{i_1j_3} \delt
 В 1971 году Ш.~Виноград доказал, что для матриц данного размера алгоритм Штрассена оптимален, то есть невозможно умножить две матрицы $2 \times 2$, использовав менее $7$ умножений \cite{W}.
 
 Для задач $\langle m, n, 1 \rangle$ стандартный алгоритм сложности $mn$ оптимален.
-На настоящий момент известны также точные оценки сложности задач $L(\langle 2, 2, 3 \rangle) = 11$ \cite{A}, $L(\langle 2, 2, 4 \rangle) = 14$ \cite{AS}, $L(\langle 2, 3, 3 \rangle) = 15$ \cite{?}.
+Для задач $\langle 2, 2, n \rangle$ алгоритм Штрассена даёт верхнюю оценку $\left \lceil{\frac{7n}{2}}\right \rceil$. В работе \cite{HK} была доказана её оптимальность над полем из двух элементов. Над произвольным полем вопрос остаётся открытым. 
+На настоящий момент известны также точные оценки сложности задач $L(\langle 2, 2, 3 \rangle) = 11$ \cite{A}, $L(\langle 2, 2, 4 \rangle) = 14$ \cite{AS}, $L(\langle 2, 3, 3 \rangle) = 15$ \cite{Bu}.
 Для б\'{о}льших размеров матриц известные нижние и верхние оценки уже не совпадают:
-$17 \leqslant L(\langle 2, 2, 5 \rangle) \leqslant 18$ \cite{?},
-$19 \leqslant L(\langle 3, 3, 3 \rangle) \leqslant 23$ \cite{L, ?},
-$34 \leqslant L(\langle 4, 4, 4 \rangle) \leqslant 49$ \cite{?}
+$17 \leqslant L(\langle 2, 2, 5 \rangle) \leqslant 18$~\cite{Al},
+$19 \leqslant L(\langle 3, 3, 3 \rangle) \leqslant 23$~\cite{L, Bl},
+$34 \leqslant L(\langle 4, 4, 4 \rangle) \leqslant 49$~\cite{Bl}
 \footnote{Указаны нижние оценки для произвольного поля и верхние оценки для кольца $\mathbb Z$.
 
 В 2022 году была получена оценка $L(\langle 4, 4, 4 \rangle) \leqslant 47$ над $\mathbb F_2$ \cite{F}
@@ -97,7 +98,7 @@ $34 \leqslant L(\langle 4, 4, 4 \rangle) \leqslant 49$ \cite{?}
 \section{Основная часть}
 
 Общая система отвечающая билинейному алгоритму сложности $19$ для задачи $\langle 3, 3, 3 \rangle$,
-содержит $19 \cdot 3 \cdot 9 = 513$ неизвестных и $3^6 = 729$ уравнений. Зафиксировав один комплект коэффициентов, мы сокращаем количество неизвестных до $18 \cdot 3 \cdot 9 = 484$. Постулировав циклическую симметрию для коэффициентов мы сокращаем количество неизвестных до $6 \cdot 3 \cdot 9 = 162$ и уравнений до $249$.
+содержит $19 \cdot 3 \cdot 9 = 513$ неизвестных и $3^6 = 729$ уравнений. Зафиксировав один комплект коэффициентов, мы сокращаем количество неизвестных до $18 \cdot 3 \cdot 9 = 486$. Постулировав циклическую симметрию для коэффициентов мы сокращаем количество неизвестных до $6 \cdot 3 \cdot 9 = 162$ и уравнений до $249$.
 
 Перебор разбивается на два основных этапа. Вначале фиксируются элементы стоящие на диагоналях матриц коэффициентов. Всего $6 \cdot 3 \cdot 3 = 54$ элемента. В силу специфики системы имеется ряд симметрий, которые позволяют из нескольких эквивалентных наборов оставить только один, тем самым сократив перебор. Во-первых, циклическая перестановка диагоналей внутри каждой тройки комплектов. Всего $3^6$ симметрий. Во-вторых, произвольные перестановки комплектов. Ещё $6!$ симметрий. В-третьих, любые одновременные перестановки элементов внутри диагоналей. Ещё $3!$ симметрий. В-четвёртых, одновременная нечётная перестановка матриц внутри комплектов. Ещё $2$ симметрии. Кроме того, имеется $11$ уравнений, содержащих только диагональные элементы. Программа, реализующая первый этап перебора генерирует все наборы диагональных элементов, которые удовлетворяют этим $11$ уравнениям и только их. Причём из каждого класса относительно указанных симметрий генерируется ровно один набор.
 
@@ -126,10 +127,14 @@ $34 \leqslant L(\langle 4, 4, 4 \rangle) \leqslant 49$ \cite{?}
 
   \bibitem{S} Strassen~V. Gaussian elimination is not optimal~// Numer. Math. 1969, №~13. p.~354--356.
   \bibitem{W} Winograd~S. On multiplication of $2 \times 2$ matrices~// Linear Algebra and Appl. 1971, №~4. p.~381--388.
-  \bibitem{A} Alekseyev~V.\,B. On the complexity of some algorithms of matrix multiplication~// Journal of Algorithms. 1985, №~6. p.~71--85.
-  \bibitem{AS} Алексеев~В.\,Б., Смирнов~А.\,В. О точной и приближённой сложностях умножения матриц размеров $4 \times 2$ и $2 \times 2$~// Современные проблемы математики. 2013, Вып.~17. С.~135--152.
+  \bibitem{HK} Hopcroft~J.\,E., Kerr~L.\,R. On minimizing the number of multiplications necessary for matrix multiplication~// SIAM Journal on Applied Mathematics. 1971, Т.~20, №~1. p.~30--36.
   \bibitem{L} Laderman~J.\,D. A noncommutative algorithm for multiplying $3 \times 3$ matrices using $23$ multiplications~// Bull. Amer. Math. Soc. 1976, №~82 p.~126--128.
+  \bibitem{A} Alekseyev~V.\,B. On the complexity of some algorithms of matrix multiplication~// Journal of Algorithms. 1985, №~6. p.~71--85.
+  \bibitem{Bl} Bläser~M. On the complexity of the multiplication of matrices of small formats~// Journal of Complexity. 2003, Т.~19. №~1. p.~43--60.
+  \bibitem{AS} Алексеев~В.\,Б., Смирнов~А.\,В. О точной и приближённой сложностях умножения матриц размеров $4 \times 2$ и $2 \times 2$~// Совр. проблемы матем. 2013, Вып.~17. С.~135--152.
+  \bibitem{Al} Алексеев~В.\,Б. О билинейной сложности умножения матриц размеров $m \times 2$ и $2 \times 2$~// Чебышевский сборник. 2015, Т.~16. №~4 (56). С.~11--27.
   \bibitem{F} Fawzi~A. et al. Discovering faster matrix multiplication algorithms with reinforcement learning~// Nature. 2022,  Т.~610. – №.~7930. – С.~47--53.
+  \bibitem{Bu} Буриченко~В.\,П. О билинейной сложности умножения $3 \times 2$ матрицы на $ 2 \times 3$ матрицу~// Дискрет. Матем. 2024, №~36:1, С.~15--45.
   \bibitem{N} Novikov A. et al. AlphaEvolve: A coding agent for scientific and algorithmic discovery. [\href{https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/AlphaEvolve.pdf}{pdf}]
 \end{thebibliography}
 \end{document}
